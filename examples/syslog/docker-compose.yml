@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  myapp:
+    image: alpine
+    command: /bin/sh -c "while :; do sleep 1 && echo \"app log $$RANDOM\" ; done"
+    networks:
+      - code-network
+      - log-network-proxy
+    logging:
+      driver: syslog
+      options:
+#        syslog-address: "tcp://192.168.48.2:514"
+        syslog-address: "udp://:514"
+        syslog-format: "rfc5424micro"
+        tag: "myapp"
+
+networks:
+  code-network:
+    driver: bridge
+  log-network-proxy:
+    external:
+      name: ticlog_log-network
