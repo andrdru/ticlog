@@ -7,7 +7,6 @@ services:
     volumes:
       - ./etc/telegraf.conf:/etc/telegraf/telegraf.conf:ro
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./etc/rsyslog.conf:/etc/rsyslog.conf
     ports:
     - "6514:6514/udp"
     networks:
