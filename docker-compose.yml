@@ -1,49 +1,34 @@
 version: "3.9"
 services:
-#  rsyslog:
-#    image: jumanjiman/rsyslog:latest
-#    #image: rsyslog/syslog_appliance_alpine:8.36.0-3.7
-#    #build:
-#    #  context: .
-#    #  dockerfile: Dockerfile.rsyslog
-#    hostname: rsyslog
-#    restart: always
-# #   ports:
-# #     - "514:514/udp"
-#    volumes:
-#      - ./etc/rsyslog_old2.conf:/etc/rsyslog.conf
-#    networks:
-#      - log-network
-#
-#  rsyslog-to:
-#    image: jumanjiman/rsyslog:latest
-#    hostname: rsyslog-to
-#    restart: always
-#    volumes:
-#      - ./etc/rsyslog_to.conf:/etc/rsyslog.conf
-#    networks:
-#      - log-network
+  rsyslog:
+    image: jumanjiman/rsyslog:latest
+#    build:
+#      context: .
+#      dockerfile: Dockerfile.rsyslog
+    hostname: rsyslog
+    restart: always
+    ports:
+      - "6514:6514"
+      - "6514:6514/udp"
+#      - "514:514"
+#      - "514:514/udp"
+    volumes:
+      - ./etc/rsyslog2.conf:/etc/rsyslog.conf
+    networks:
+      - log-network
 
   telegraf:
-    #image: telegraf:1.17.2
-    build:
-      context: .
-      dockerfile: Dockerfile.telegraf
+    image: telegraf:1.17.2
+#    build:
+#      context: .
+#      dockerfile: Dockerfile.telegraf
     hostname: telegraf
     restart: always
     volumes:
       - ./etc/telegraf.conf:/etc/telegraf/telegraf.conf:ro
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./etc/rsyslog.conf:/etc/rsyslog.conf
-#      - ./etc/rsyslog_old2.conf:/etc/rsyslog.conf
-    ports:
-    - "6514:6514"
-    - "6514:6514/udp"
-    - "514:514"
-    - "514:514/udp"
     networks:
       - log-network
-#    entrypoint: /bin/sh -c "sleep 99999"
 
   influxdb:
     image: influxdb:1.7
@@ -66,17 +51,17 @@ services:
       - telegraf
     networks:
       - log-network
-#
-#  # Define a service for using the influx CLI tool.
-#  # docker-compose run influxdb-cli
-#  influxdb-cli:
-#    image: influxdb:1.7
-#    entrypoint:
-#      - influx
-#      - -host
-#      - influxdb
-#    networks:
-#      - log-network
+
+  # Define a service for using the influx CLI tool.
+  # docker-compose run influxdb-cli
+  influxdb-cli:
+    image: influxdb:1.7
+    entrypoint:
+      - influx
+      - -host
+      - influxdb
+    networks:
+      - log-network
 
 networks:
   log-network:

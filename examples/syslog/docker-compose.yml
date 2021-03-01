@@ -5,11 +5,10 @@ services:
     command: /bin/sh -c "while :; do sleep 1 && echo \"app log $$RANDOM\" ; done"
     networks:
       - code-network
-      - log-network-proxy
+#      - log-network-proxy
     logging:
       driver: syslog
       options:
-#        syslog-address: "tcp://192.168.48.2:6514"
         syslog-address: "udp://:6514"
         syslog-format: "rfc5424micro"
         tag: "myapp"
@@ -17,6 +16,6 @@ services:
 networks:
   code-network:
     driver: bridge
-  log-network-proxy:
-    external:
-      name: ticlog_log-network
+#  log-network-proxy:
+#    external:
+#      name: ticlog_log-network

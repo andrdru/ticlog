@@ -6,17 +6,8 @@ RUN  apk update \
 
 #ADD etc/rsyslog.conf /etc/rsyslog.conf
 
-#EXPOSE 514 514/udp
-EXPOSE 514
-
-# Create a group and user
-RUN addgroup -S syslog && adduser -S syslog -G syslog
+# EXPOSE 6514 6514/udp
 
 RUN mkdir -p /var/spool/rsyslog
-RUN chown -R syslog:syslog /var/spool/rsyslog
-
-# Tell docker that all future commands should run as the appuser user
-USER syslog
-
 
 ENTRYPOINT [ "rsyslogd", "-n" ]
