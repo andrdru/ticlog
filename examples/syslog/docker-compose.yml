@@ -9,8 +9,8 @@ services:
     logging:
       driver: syslog
       options:
-#        syslog-address: "tcp://192.168.48.2:514"
-        syslog-address: "udp://:514"
+#        syslog-address: "tcp://192.168.48.2:6514"
+        syslog-address: "udp://:6514"
         syslog-format: "rfc5424micro"
         tag: "myapp"
 

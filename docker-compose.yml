@@ -37,6 +37,8 @@ services:
       - ./etc/rsyslog.conf:/etc/rsyslog.conf
 #      - ./etc/rsyslog_old2.conf:/etc/rsyslog.conf
     ports:
+    - "6514:6514"
+    - "6514:6514/udp"
     - "514:514"
     - "514:514/udp"
     networks:
