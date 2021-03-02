@@ -12,6 +12,18 @@ services:
         syslog-format: "rfc5424micro"
         tag: "myapp"
 
+  myapp2:
+    image: alpine
+    command: /bin/sh -c "while :; do sleep 1 && echo \"app2 log $$RANDOM\" ; done"
+    networks:
+      - code-network
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "udp://:6514"
+        syslog-format: "rfc5424micro"
+        tag: "myapp2"
+
 networks:
   code-network:
     driver: bridge
